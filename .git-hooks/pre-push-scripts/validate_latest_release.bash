@@ -41,7 +41,7 @@ else
 				RELEASE_NOTES_FILE_PATH="${PWD%/*/*}/release_notes.properties"
 				RELEASE_NOTES_DESCRIPTION=$(grep -iR "^DESCRIPTION" "$RELEASE_NOTES_FILE_PATH" | awk -F "=" '{print $2}')
 				#
-				RESPONSE=$(curl -s -w %{http_code} -X POST -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GITHUB_TOKEN" "$URL"  -d '{ "tag_name":"0.1.1","body":"Lorem","draft":false,"prerelease": false,"generate_release_notes":false,"make_lateststring":true}')
+				RESPONSE=$(curl -s -w %{http_code} -X POST -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GITHUB_TOKEN" "$URL"  -d '{ "tag_name":"'$CURRENT_GIT_TAG'","body":""'$RELEASE_NOTES_DESCRIPTION'","draft":false,"prerelease": false,"generate_release_notes":false,"make_lateststring":true}')
 				#
 				HTTP_STATUS_CODE=$(tail -n1 <<< "$RESPONSE")  # get the last line.
 				HTTP_BODY=$(sed '$ d' <<< "$RESPONSE" )   # get all but the last line which contains the status code.
