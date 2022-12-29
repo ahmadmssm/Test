@@ -20,13 +20,13 @@ else
 		HTTP_STATUS_CODE=$(tail -n1 <<< "$RESPONSE")  # get the last line.
 		HTTP_BODY=$(sed '$ d' <<< "$RESPONSE" )   # get all but the last line which contains the status code.
 		HTTP_BODY=$(echo $HTTP_BODY | sed -r 's/000000000//g')  # Remove leading zeros.
-		echo "➡️ Status Code: $HTTP_STATUS_CODE"
+		#echo "➡️ Status Code: $HTTP_STATUS_CODE"
 		#echo "➡️ Response: $HTTP_BODY"
 		#
 		if [[ "$HTTP_STATUS_CODE" -ne 200 ]] ; then 
 			echo -e "\033[0;31m🚫 Error, Could not fetch the latest GitHub release!"
 		else
-			LATEST_RELEASE=$(echo $HTTP_BODY | jq -r '.name')
+			LATEST_RELEASE=$(echo $HTTP_BODY | jq -r '.tag_name')
 			echo "➡️ Latest GitHub Release: $LATEST_RELEASE"
 			#
 			CURRENT_GIT_TAG=$(git describe --abbrev=0 --tags)
