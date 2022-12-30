@@ -36,7 +36,7 @@ else
 				echo "⚠️ Release already exists."
 				echo "📢 please create a new tag and push it to the master branch to create a new release."
 				echo "⚠️ Terminating GIT push.."
-				exit 0
+				exit 1
 			else
 				RELEASE_NOTES_FILE_PATH="${PWD%/*/*}/release_notes.properties"
 				RELEASE_NOTES_DESCRIPTION=$(grep -iR "^DESCRIPTION" "$RELEASE_NOTES_FILE_PATH" | awk -F "=" '{print $2}')
@@ -50,12 +50,12 @@ else
 				#
 				if [[ "$HTTP_STATUS_CODE" -ne 201 ]] ; then 
 					echo -e "\033[0;31m🚫 Error, Could not create a new GitHub release!"
-					exit 0
+					exit 1
 				else
 					echo "🎉🎉 Release $CURRENT_GIT_TAG created successfully 🥳"
 					echo "✅ Pushing to master branch..."
 					# A GitHub action will trigger once the new Tag is npushed to master to deploy a new release to NPM.
-					exit 1
+					exit 0
 				fi
 			fi
 		fi	
